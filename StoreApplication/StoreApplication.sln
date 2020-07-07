@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30204.135
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StoreApplication.ConsoleApp", "StoreApplication.ConsoleApp\StoreApplication.ConsoleApp.csproj", "{7E2E6206-D163-464F-9626-799ED1C63B31}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StoreApplication.Library", "StoreApplication.Library\StoreApplication.Library.csproj", "{16BF3EA4-AFE4-45D1-A1FC-57F1F3F74CB3}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StoreApplication.Testing", "StoreApplication.Testing\StoreApplication.Testing.csproj", "{EBBC114C-DB43-408D-A0D6-924198B2A8BB}"
@@ -16,7 +14,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccess", "DataAccess\DataAccess.csproj", "{35D46305-0CF7-4D02-AD04-983078697F8E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StoreApplication.WebUI", "StoreApplication.WebUI\StoreApplication.WebUI.csproj", "{10C63BAB-A801-412C-9E8E-4433071BF16B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StoreApplication.WebUI", "StoreApplication.WebUI\StoreApplication.WebUI.csproj", "{10C63BAB-A801-412C-9E8E-4433071BF16B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -24,10 +22,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{7E2E6206-D163-464F-9626-799ED1C63B31}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7E2E6206-D163-464F-9626-799ED1C63B31}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7E2E6206-D163-464F-9626-799ED1C63B31}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7E2E6206-D163-464F-9626-799ED1C63B31}.Release|Any CPU.Build.0 = Release|Any CPU
 		{16BF3EA4-AFE4-45D1-A1FC-57F1F3F74CB3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{16BF3EA4-AFE4-45D1-A1FC-57F1F3F74CB3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{16BF3EA4-AFE4-45D1-A1FC-57F1F3F74CB3}.Release|Any CPU.ActiveCfg = Release|Any CPU
