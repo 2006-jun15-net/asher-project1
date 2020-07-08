@@ -30,7 +30,8 @@ namespace StoreApplication.WebUI
             services.AddDbContext<Project0StoreContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("SqlServer")));
 
-            services.AddScoped<ILocationRepository, LocationRepository>();
+            services.AddScoped<ICustomerRepository, CustomerRepository>();
+            services.AddScoped<IProductRepository, ProductRepository>();
 
             services.AddControllersWithViews();
         }
