@@ -1,0 +1,52 @@
+﻿@model IEnumerable<StoreApplication.WebUI.ViewModels.ProductViewModel>
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+@{ 
+    var productList = Model.ToList();
+}  
+<h1>Select Products</h1>
+
+<form asp-action="Create">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Price)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.AmountOrdered)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < productList.Count; i++)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(product => productList[i].Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(product => productList[i].Price)
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(product => product.ElementAt(i).AmountOrdered, new { placeholder = 0 })
+                    </td>
+                    <td>
+                        @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div class="form-group">
+        <input type="submit" value="Submit" class="btn btn-primary" />
+    </div>
+</form>
