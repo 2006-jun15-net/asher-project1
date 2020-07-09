@@ -8,7 +8,7 @@
     var productList = Model.ToList();
 }  
 <h1>Select Products</h1>
-
+<h4>@TempData.Peek("selectedLocation")</h4>
 <form asp-action="Create">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <table class="table">
@@ -32,12 +32,14 @@
                 <tr>
                     <td>
                         @Html.DisplayFor(product => productList[i].Name)
+                        @Html.HiddenFor(product => productList[i].Name)
                     </td>
                     <td>
                         @Html.DisplayFor(product => productList[i].Price)
+                        @Html.HiddenFor(product => productList[i].Price)
                     </td>
                     <td>
-                        @Html.TextBoxFor(product => product.ElementAt(i).AmountOrdered, new { placeholder = 0 })
+                        @Html.TextBoxFor(product => productList[i].AmountOrdered, new { placeholder = 0 })
                     </td>
                     <td>
                         @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ })

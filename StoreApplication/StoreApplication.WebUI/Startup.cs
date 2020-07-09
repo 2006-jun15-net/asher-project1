@@ -32,6 +32,10 @@ namespace StoreApplication.WebUI
 
             services.AddScoped<ICustomerRepository, CustomerRepository>();
             services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped<ILocationRepository, LocationRepository>();
+            services.AddScoped<IInventoryRepository, InventoryRepository>();
+            services.AddScoped<IOrderHistoryRepository, OrderHistoryRepository>();
+            services.AddScoped<IOrdersRepository, OrdersRepository>();
 
             services.AddControllersWithViews();
         }
