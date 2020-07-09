@@ -11,5 +11,7 @@ namespace StoreApplication.Library
         void Update(Product obj);
         void Delete(object id);
         void Save();
+        int FindProduct(string name);
+        bool ExceedMaxAmount(int amountOrdered, int id);
     }
 }

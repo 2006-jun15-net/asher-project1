@@ -7,5 +7,8 @@ namespace StoreApplication.Library
     {
         IEnumerable<Order> GetAllOrdersInHistory();
         double CalculateTotal(Product product, Order orders);
+        void AddOrder(Order order);
+        void AddListOfOrders(List<Order> orders, StoreApplication.Library.Models.OrderHistory orderHistory);
+        void Save();
     }
 }

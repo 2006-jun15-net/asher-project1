@@ -60,6 +60,26 @@ namespace DataAccess
         {
             context.SaveChanges();
         }
+
+        public int FindProduct(string name)
+        {
+            Product entity = context.Product.FirstOrDefault(p => p.Name == name);
+            return entity.ProductId;
+        }
+
+        public bool ExceedMaxAmount(int amountOrdered, int id)
+        {
+            Product entity = context.Product.Find(id);
+            
+            if(entity.MaxPerOrder < amountOrdered)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
     
 }

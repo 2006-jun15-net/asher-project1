@@ -31,16 +31,30 @@ namespace DataAccess
             return sum;
         }
 
-        public IEnumerable<StoreApplication.Library.Models.Order> GetAllOrdersInHistory()
+        public IEnumerable<Order> GetAllOrdersInHistory()
         {
             var orders = context.Orders.Include(oh => oh.OrderHistory);
             return orders.Select(Mapper.MapOrdersEntity);
         }
 
-        public void AddOrder(StoreApplication.Library.Models.Order order)
+        public void AddOrder(Order order)
         {
             Orders entity = Mapper.MapOrdersDTO(order);
             context.Orders.Add(entity);
+        }
+
+        public void AddListOfOrders(List<Order> orders, StoreApplication.Library.Models.OrderHistory orderHistory)
+        {
+            foreach(var o in orders)
+            {
+                o.OrderHistoryId = orderHistory.Id;
+                AddOrder(o);
+            }
+        }
+
+        public void Save()
+        {
+            context.SaveChanges();
         }
     }
 }

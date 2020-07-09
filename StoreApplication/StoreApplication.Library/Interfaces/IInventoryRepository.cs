@@ -6,5 +6,7 @@ namespace StoreApplication.Library
     {
         void Update(Inventory obj);
         Inventory FindLocationInventory(Location location, Product product);
+        bool ExceedInventory(int amountOrdered, int id);
+        void UpdateStock(Inventory obj, int amountOrdered);
     }
 }

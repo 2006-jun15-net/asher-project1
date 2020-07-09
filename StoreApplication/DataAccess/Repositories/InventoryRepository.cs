@@ -24,6 +24,11 @@ namespace DataAccess
             table = this.context.Set<Inventory>();
         }
 
+        public StoreApplication.Library.Models.Inventory GetById(int id)
+        {
+            return Mapper.MapInventoryEntities(context.Inventory.Find(id));
+        }
+
         public StoreApplication.Library.Models.Inventory FindLocationInventory(StoreApplication.Library.Models.Location location, StoreApplication.Library.Models.Product product)
         {
             Location locationEntity = context.Location.Find(location.Id);
@@ -37,6 +42,24 @@ namespace DataAccess
             Inventory currentEntity = context.Inventory.Find(obj.Id);
             Inventory newEntity = Mapper.MapInventoryDTO(obj);
             context.Entry(currentEntity).CurrentValues.SetValues(newEntity);
+        }
+
+        public bool ExceedInventory(int amountOrdered, int id)
+        {
+            Inventory entity = context.Inventory.Find(id);
+            if(entity.InStock < amountOrdered)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public void UpdateStock(StoreApplication.Library.Models.Inventory obj, int amountOrdered)
+        {
+            obj.InStock -= amountOrdered;
         }
     }
 }

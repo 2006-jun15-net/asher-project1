@@ -24,18 +24,18 @@ namespace DataAccess
             table = context.Set<OrderHistory>();
         }
 
-        public IEnumerable<StoreApplication.Library.Models.OrderHistory> GetAllCustomerOrders(StoreApplication.Library.Models.Customer customer)
+        public IEnumerable<StoreApplication.Library.Models.OrderHistory> GetAllCustomerOrders(int customerId)
         {
-            Customer customerEntity = context.Customer.Find(customer.Id);
+            Customer customerEntity = context.Customer.Find(customerId);
             var customerHistories = context.OrderHistory
                 .Where(o => o.CustomerId == customerEntity.CustomerId).ToList();
 
             return customerHistories.Select(Mapper.MapOrderHistoryEntity);
         }
 
-        public IEnumerable<StoreApplication.Library.Models.OrderHistory> GetAllLocationOrders(StoreApplication.Library.Models.Location location)
+        public IEnumerable<StoreApplication.Library.Models.OrderHistory> GetAllLocationOrders(int locationId)
         {
-            Location locationEntity = context.Location.Find(location.Id);
+            Location locationEntity = context.Location.Find(locationId);
             var locationHistories = context.OrderHistory
                 .Where(o => o.LocationId == locationEntity.LocationId).ToList();
 
@@ -74,6 +74,17 @@ namespace DataAccess
             OrderHistory entity = Mapper.MapOrderHistoryDTO(orderHistory);
             //entity.OrderHistoryId = 0;
             context.OrderHistory.Add(entity);
+        }
+
+        public void Save()
+        {
+            context.SaveChanges();
+        }
+
+        public int GetLatestOrderHistory(int customerId)
+        {
+            var histories = GetAllCustomerOrders(customerId).ToList();
+            return histories[histories.Count - 1].Id;
         }
     }
 }
