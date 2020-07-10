@@ -50,5 +50,12 @@ namespace StoreApplication.WebUI.Controllers
             TempData["selectedLocation"] = location.Id;
             return RedirectToAction("Create", "Product");
         }
+
+        public ActionResult ViewHistories(int id)
+        {
+            var location = Repo.GetByID(id);
+            TempData["selectedLocation"] = location.Id;
+            return RedirectToAction("LocationHistories", "OrderHistory");
+        }
     }
 }

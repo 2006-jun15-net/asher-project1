@@ -1,45 +1,53 @@
-﻿using DataAccess.Model;
-using Microsoft.EntityFrameworkCore;
-using StoreApplication.Library;
+﻿using StoreApplication.Library.Models;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using Xunit;
 
 namespace StoreApplication.Testing
 {
     public class LocationTest
     {
-        public static readonly DbContextOptions<Project0StoreContext> Options = new DbContextOptionsBuilder<Project0StoreContext>()
-            //.UseLoggerFactory(MyLoggerFactory)
-            .UseSqlServer(SecretConfiguration.ConnectionString)
-            .Options;
-        public static Project0StoreContext context = new Project0StoreContext(Options);
+        private readonly Location location = new Location();
 
-        [Theory]
-        [InlineData(1)]
-        [InlineData(2)]
-        [InlineData(3)]
-        public void Get_Correct_Location(int id)
+        [Fact]
+        public void Address_NonEmptyValue_StoresCorrectly()
         {
-            LocationRepository locationRepo = new LocationRepository(context);
-
-            Location location = locationRepo.GetByID(id);
-
-            Assert.True(location.LocationId == id);
+            string randomAddress = "5345 Willow Rd";
+            location.Address = randomAddress;
+            Assert.Equal(randomAddress, location.Address);
         }
 
-        [Theory]
-        [InlineData(5)]
-        [InlineData(9)]
-        [InlineData(21)]
-        public void Returns_Null_If_Location_Not_Found(int id)
+        [Fact]
+        public void ThrowsException_WhenAddressEmpty()
         {
-            LocationRepository locationRepo = new LocationRepository(context);
+            Assert.ThrowsAny<ArgumentException>(() => location.Address = String.Empty);
+        }
 
-            Location location = locationRepo.GetByID(id);
+        [Fact]
+        public void City_NonEmptyValue_StoresCorrectly()
+        {
+            string randomCity = "Seattle";
+            location.City = randomCity;
+            Assert.Equal(randomCity, location.City);
+        }
 
-            Assert.Null(location);
+        [Fact]
+        public void ThrowsException_WhenCityEmpty()
+        {
+            Assert.ThrowsAny<ArgumentException>(() => location.City = String.Empty);
+        }
+
+        [Fact]
+        public void State_NonEmptyValue_StoresCorrectly()
+        {
+            string randomState = "Virginia";
+            location.State = randomState;
+            Assert.Equal(randomState, location.State);
+        }
+
+        [Fact]
+        public void ThrowsException_WhenStateEmpty()
+        {
+            Assert.ThrowsAny<ArgumentException>(() => location.State = String.Empty);
         }
     }
 }

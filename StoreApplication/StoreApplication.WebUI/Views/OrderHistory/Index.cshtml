@@ -1,0 +1,14 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<div class="text-center">
+    <h3>Which Order History would you like to view?</h3>
+    <div class="list-group">
+        <a asp-controller="OrderHistory" asp-action="CustomerHistories">View Your Histories</a>
+        <a asp-controller="Location" asp-action="SelectLocation">View Location Histories</a>
+    </div>
+</div>

@@ -56,5 +56,18 @@ namespace DataAccess
         {
             context.SaveChanges();
         }
+
+        public List<Order> FilterOrdersByHistory(List<Order> orders, int orderhistoryId)
+        {
+            foreach(var o in orders.ToList())
+            {
+                if(o.OrderHistoryId != orderhistoryId)
+                {
+                    orders.Remove(o);
+                }
+            }
+
+            return orders;
+        }
     }
 }

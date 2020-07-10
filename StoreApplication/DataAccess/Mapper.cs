@@ -5,6 +5,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Linq;
 using DataAccess.Entities;
+using StoreApplication.Library.Models;
 
 namespace DataAccess
 
@@ -76,11 +77,12 @@ namespace DataAccess
             var config = new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<Entities.Orders, StoreApplication.Library.Models.Order>()
-                  .ForMember(dest => dest.Id, act => act.MapFrom(src => src.OrderId));
+                  .ForMember(dest => dest.Id, act => act.MapFrom(src => src.OrderId))
+                  .ForMember(dest => dest.ProductName, act => act.MapFrom(src => src.Product.Name));
             });
             IMapper mapper = config.CreateMapper();
 
-            return mapper.Map<StoreApplication.Library.Models.Order>(orders); 
+            return mapper.Map<StoreApplication.Library.Models.Order>(orders);
         }
 
         public static Entities.Orders MapOrdersDTO(StoreApplication.Library.Models.Order order)

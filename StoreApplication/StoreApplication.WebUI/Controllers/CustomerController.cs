@@ -53,6 +53,7 @@ namespace StoreApplication.WebUI.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Create([Bind("FirstName, LastName, UserName")] CustomerViewModel viewModel)
         {
             try

@@ -43,7 +43,8 @@
                 @Html.DisplayFor(modelItem => item.State)
             </td>
             <td>
-                @Html.ActionLink("Select", "Select", new { id = item.Id })
+                @Html.ActionLink("Select", "Select", new { id = item.Id }) |
+                @Html.ActionLink("Orders", "ViewHistories", new { id = item.Id })
             </td>
         </tr>
 }

@@ -51,6 +51,7 @@ namespace StoreApplication.WebUI.Controllers
 
         // parameter name needs to be productList because since I made a new variable in the View that was a different type than was was strongly typed and because we were passing in this new variable as the argument for this post method, they needed to be the same name so http could identify it
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Create(IEnumerable<ProductViewModel> productList)
         {
             IEnumerable<Product> products = ProductRepo.GetAll();

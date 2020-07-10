@@ -10,5 +10,6 @@ namespace StoreApplication.Library
         void AddOrder(Order order);
         void AddListOfOrders(List<Order> orders, StoreApplication.Library.Models.OrderHistory orderHistory);
         void Save();
+        List<Order> FilterOrdersByHistory(List<Order> orders, int orderhistoryId);
     }
 }

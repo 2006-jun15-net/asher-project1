@@ -4,9 +4,9 @@
     ViewData["Title"] = "Create";
 }
 
-@{ 
+@{
     var productList = Model.ToList();
-}  
+}
 <h1>Select Products</h1>
 <h4>@TempData.Peek("selectedLocation")</h4>
 <form asp-action="Create">
@@ -52,3 +52,7 @@
         <input type="submit" value="Submit" class="btn btn-primary" />
     </div>
 </form>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
