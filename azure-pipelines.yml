@@ -23,18 +23,26 @@ jobs:
       workingDirectory: $(solutionPath)
 
     - task: DotNetCoreCLI@2
-      displayName: run project tests
+      displayName: Run project tests
       inputs:
         command: 'test'
         projects: '$(solutionPath)'
         arguments: '-c Release --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=cobertura,opencover'
         testRunTitle: 'ubuntu'
 
+    - task: PublishCodeCoverageResults@1
+      displayName: Publish Code Coverage
+      inputs:
+        codeCoverageTool: 'Cobertura'
+        summaryFileLocation: '**/TestResults/*/coverage.cobertura.xml'
+        failIfCoverageEmpty: true
+
     - script: dotnet publish -c Release -o ../publish
       displayName: Publish our application
       workingDirectory: $(solutionPath)
     
     - task: AzureRmWebAppDeployment@4
+      displayName: Azure App Service Deployment
       inputs:
         ConnectionType: 'AzureRM'
         azureSubscription: 'Azure subscription 1(6bfb27c8-f9ac-40e8-9b4f-55922e406dbf)'
