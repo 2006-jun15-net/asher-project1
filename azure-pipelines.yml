@@ -26,6 +26,10 @@ jobs:
         scannerMode: 'MSBuild'
         projectKey: '2006-jun15-net_asher-project1'
         projectName: 'Store Application'
+        extraProperties: |
+          sonar.exclusions=**/lib/**
+          sonar.cs.vstest.reportsPaths=$(Agent.TempDirectory)/*.trx
+          sonar.cs.opencover.reportsPaths=$(Agent.TempDirectory)/*/coverage.opencover.xml
     
     - script: dotnet build -c Release
       displayName: Build Project/Application and Release Config
