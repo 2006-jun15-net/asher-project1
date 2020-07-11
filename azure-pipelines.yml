@@ -29,3 +29,15 @@ jobs:
         projects: '$(solutionPath)'
         arguments: '-c Release'
         testRunTitle: 'ubuntu'
+
+    - script: dotnet publish -c Release -o ../publish
+      displayName: Publish our application
+      workingDirectory: $(solutionPath)
+    
+    - task: AzureRmWebAppDeployment@4
+      inputs:
+        ConnectionType: 'AzureRM'
+        azureSubscription: 'Azure subscription 1(6bfb27c8-f9ac-40e8-9b4f-55922e406dbf)'
+        appType: 'webApp'
+        WebAppName: 'Store-Applicatoin'
+        packageForLinux: '$(System.DefaultWorkingDirectory)/publish'
