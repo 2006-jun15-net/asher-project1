@@ -6,14 +6,23 @@
 trigger:
 - master
 
-pool:
-  vmImage: 'ubuntu-latest'
+pr:
+- master
 
-steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
+variables:
+  solutionPath: StoreApplication
 
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+jobs:
+  - job: build_linux
+    pool:
+      vmImage: 'ubuntu-latest'
+
+    steps:
+    - script: dotnet build
+      displayName: dotnet build
+      workingDirectory: $(solutionPath)
+
+    - script: |
+        echo Add other tasks to build, test, and deploy your project.
+        echo See https://aka.ms/yaml
+      displayName: 'Run a multi-line script'
