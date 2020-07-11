@@ -1,0 +1,68 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- master
+
+pr:
+- master
+
+variables:
+  solutionPath: StoreApplication
+
+jobs:
+  - job: build_linux
+    pool:
+      vmImage: 'ubuntu-latest'
+
+    steps:
+    - task: SonarCloudPrepare@1
+      displayName: SonarCloud Prepare Analysis
+      inputs:
+        SonarCloud: 'SonarCloud-Trasher571'
+        organization: '2006-jun15-net'
+        scannerMode: 'MSBuild'
+        projectKey: '2006-jun15-net_asher-project1'
+        projectName: 'Store Application'
+    
+    - script: dotnet build -c Release
+      displayName: Build Project/Application and Release Config
+      workingDirectory: $(solutionPath)
+
+    - task: SonarCloudAnalyze@1
+      displayName: Run SonarCloud Analysis
+
+    - task: SonarCloudPublish@1
+      displayName: Publish Analysis
+      inputs:
+        pollingTimeoutSec: '300'
+
+    - task: DotNetCoreCLI@2
+      displayName: Run project tests
+      inputs:
+        command: 'test'
+        projects: '$(solutionPath)'
+        arguments: '-c Release --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=cobertura,opencover'
+        testRunTitle: 'ubuntu'
+
+    - task: PublishCodeCoverageResults@1
+      displayName: Publish Code Coverage
+      inputs:
+        codeCoverageTool: 'Cobertura'
+        summaryFileLocation: '$(Agent.TempDirectory)/*/coverage.cobertura.xml'
+        failIfCoverageEmpty: true
+
+    - script: dotnet publish -c Release -o ../publish
+      displayName: Publish our application
+      workingDirectory: $(solutionPath)
+    
+    - task: AzureRmWebAppDeployment@4
+      displayName: Azure App Service Deployment
+      inputs:
+        ConnectionType: 'AzureRM'
+        azureSubscription: 'Azure subscription 1(6bfb27c8-f9ac-40e8-9b4f-55922e406dbf)'
+        appType: 'webApp'
+        WebAppName: 'Store-Applicatoin'
+        packageForLinux: '$(System.DefaultWorkingDirectory)/publish'
