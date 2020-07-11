@@ -18,11 +18,14 @@ jobs:
       vmImage: 'ubuntu-latest'
 
     steps:
-    - script: dotnet build
-      displayName: dotnet build
+    - script: dotnet build -c Release
+      displayName: Build Project/Application and Release Config
       workingDirectory: $(solutionPath)
 
-    - script: |
-        echo Add other tasks to build, test, and deploy your project.
-        echo See https://aka.ms/yaml
-      displayName: 'Run a multi-line script'
+    - task: DotNetCoreCLI@2
+      displayName: run project tests
+      inputs:
+        command: 'test'
+        projects: '$(solutionPath)'
+        arguments: '-c Release'
+        testRunTitle: 'ubuntu'
