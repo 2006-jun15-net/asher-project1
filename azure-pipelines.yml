@@ -27,7 +27,7 @@ jobs:
       inputs:
         command: 'test'
         projects: '$(solutionPath)'
-        arguments: '-c Release'
+        arguments: '-c Release --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=cobertura,opencover'
         testRunTitle: 'ubuntu'
 
     - script: dotnet publish -c Release -o ../publish
