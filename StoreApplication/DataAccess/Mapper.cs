@@ -1,11 +1,5 @@
 ﻿using AutoMapper;
-using System;
-using System.Collections.Generic;
-using System.Security.Cryptography;
-using System.Text;
 using System.Linq;
-using DataAccess.Entities;
-using StoreApplication.Library.Models;
 
 namespace DataAccess
 
