@@ -41,9 +41,14 @@ namespace StoreApplication.WebUI.Controllers
 
         public ActionResult CustomerHistories()
         {
-            int customerId = Int32.Parse(TempData["currentCustomerID"].ToString());
+            var customerId = TempData["currentCustomerID"];
             TempData.Keep();
-            IEnumerable<OrderHistory> customerHistories = OrderHistoryRepo.GetAllCustomerOrders(customerId);
+            if (customerId == null)
+            {
+                return RedirectToAction("SignIn", "Customer");
+            }
+
+            IEnumerable<OrderHistory> customerHistories = OrderHistoryRepo.GetAllCustomerOrders((int)customerId);
             IEnumerable<OrderHistoryViewModel> viewModels = customerHistories.Select(x => new OrderHistoryViewModel
             {
                 Id = x.Id,

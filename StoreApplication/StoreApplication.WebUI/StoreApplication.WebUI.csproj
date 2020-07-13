@@ -14,4 +14,8 @@
     <ProjectReference Include="..\StoreApplication.Library\StoreApplication.Library.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Pictures\" />
+  </ItemGroup>
+
 </Project>
