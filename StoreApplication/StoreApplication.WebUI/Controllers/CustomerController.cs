@@ -82,7 +82,7 @@ namespace StoreApplication.WebUI.Controllers
                         LastName = viewModel.LastName,
                         UserName = viewModel.UserName
                     };
-                    customer = Repo.findCustomer(customer.FirstName, customer.LastName, customer.UserName);
+                    
                     if(!Repo.DoesUsernameExist(customer))
                     {
                         Repo.AddCustomer(customer);
