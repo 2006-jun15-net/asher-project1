@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Logging;
 using Serilog;
 using StoreApplication.Library;
@@ -82,7 +83,7 @@ namespace StoreApplication.WebUI.Controllers
                         UserName = viewModel.UserName
                     };
                     customer = Repo.findCustomer(customer.FirstName, customer.LastName, customer.UserName);
-                    if(customer != null)
+                    if(!Repo.DoesUsernameExist(customer))
                     {
                         Repo.AddCustomer(customer);
                         Repo.Save();
@@ -95,7 +96,7 @@ namespace StoreApplication.WebUI.Controllers
                     }
 
                     _logger.LogError("User entered in an invalid credential");
-                    viewModel.ErrorMessage = "One or more credentials were invalid";
+                    ModelState.AddModelError("UserName", "UserName already exists. Please create another");
                     return View(viewModel);
                 }
 

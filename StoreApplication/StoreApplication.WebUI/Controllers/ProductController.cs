@@ -72,7 +72,7 @@ namespace StoreApplication.WebUI.Controllers
                 if(!ModelState.IsValid)
                 {
                     _logger.LogError("User submitted invalid form");
-                    ModelState.AddModelError("", "A whole number must be entered in for Amount");
+                    ModelState.AddModelError("", "You must enter a positive whole number");
                     return View(viewModels);
                 }
 
@@ -80,6 +80,8 @@ namespace StoreApplication.WebUI.Controllers
                 var orderHistory = new OrderHistory();
                 List<Order> productOrders = new List<Order>();
                 Location location = LocationRepo.GetByID(Int32.Parse(TempData["selectedLocation"].ToString()));
+                bool productOrdered = false;
+
                 foreach(var p in productList)
                 {
                     if(p.AmountOrdered > 0)
@@ -101,6 +103,7 @@ namespace StoreApplication.WebUI.Controllers
                             return View(viewModels);
                         }
 
+                        productOrdered = true;
                         var order = new Order()
                         {
                             ProductId = productId,
@@ -112,18 +115,23 @@ namespace StoreApplication.WebUI.Controllers
                     }
                 }
 
-                orderHistory.CustomerId = Int32.Parse(TempData["currentCustomerID"].ToString());
-                TempData.Keep();
-                orderHistory.LocationId = location.Id;
-                orderHistory.TimeOrdered = DateTime.Now;
-                OrderHistoryRepo.AddOrderHistory(orderHistory);
-                OrderHistoryRepo.Save();
-                orderHistory.Id = OrderHistoryRepo.GetLatestOrderHistory((int)orderHistory.CustomerId);
-                OrdersRepo.AddListOfOrders(productOrders, orderHistory);
-                OrdersRepo.Save();
+                if(productOrdered)
+                {
+                    orderHistory.CustomerId = Int32.Parse(TempData["currentCustomerID"].ToString());
+                    TempData.Keep();
+                    orderHistory.LocationId = location.Id;
+                    orderHistory.TimeOrdered = DateTime.Now;
+                    OrderHistoryRepo.AddOrderHistory(orderHistory);
+                    OrderHistoryRepo.Save();
+                    orderHistory.Id = OrderHistoryRepo.GetLatestOrderHistory((int)orderHistory.CustomerId);
+                    OrdersRepo.AddListOfOrders(productOrders, orderHistory);
+                    OrdersRepo.Save();
 
-                _logger.LogInformation("User successfully created an order");
-                return RedirectToAction("Index", "Home");
+                    _logger.LogInformation("User successfully created an order");
+                    return RedirectToAction("Index", "Home");
+                }
+
+                return View(viewModels);
             }
             catch(ArgumentException ex)
             {

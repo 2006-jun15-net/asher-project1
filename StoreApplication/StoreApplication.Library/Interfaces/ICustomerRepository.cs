@@ -9,5 +9,7 @@ namespace StoreApplication.Library
         Customer findCustomer(string FirstName, string LastName, string UserName);
         void AddCustomer(Customer customer);
         void Save();
+
+        bool DoesUsernameExist(Customer customer);
     }
 }

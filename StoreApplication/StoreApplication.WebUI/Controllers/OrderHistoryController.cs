@@ -34,6 +34,7 @@ namespace StoreApplication.WebUI.Controllers
         {
             _logger.LogInformation("User is viewing location order histories");
             int locationId = Int32.Parse(TempData["selectedLocation"].ToString());
+            TempData.Keep();
             IEnumerable<OrderHistory> locationHistories = OrderHistoryRepo.GetAllLocationOrders(locationId);
             IEnumerable<OrderHistoryViewModel> viewModels = locationHistories.Select(x => new OrderHistoryViewModel
             {

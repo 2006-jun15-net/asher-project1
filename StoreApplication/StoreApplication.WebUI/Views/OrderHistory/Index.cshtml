@@ -3,10 +3,14 @@
     ViewData["Title"] = "Index";
 }
 
-<div class="text-center">
-    <h3>Which Order History would you like to view?</h3>
-    <div class="list-group list-group-flush">
-        <a class="list-group-item list-group-item-action" asp-controller="OrderHistory" asp-action="CustomerHistories">View Your Histories</a>
-        <a class="list-group-item list-group-item-action" asp-controller="Location" asp-action="SelectLocation">View Location Histories</a>
+<div class="SecondImage">
+    <div style="padding-top:50px;">
+        <div class="text-center">
+            <h3 class="GameText">Which Order History would you like to view?</h3>
+            <div class="list-group list-group-flush">
+                <a class="list-group-item list-group-item-action Clear" asp-controller="OrderHistory" asp-action="CustomerHistories">View Your Histories</a>
+                <a class="list-group-item list-group-item-action Clear" asp-controller="Location" asp-action="SelectLocation">View Location Histories</a>
+            </div>
+        </div>
     </div>
 </div>
