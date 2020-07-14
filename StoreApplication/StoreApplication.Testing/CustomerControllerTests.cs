@@ -12,6 +12,7 @@ using Xunit;
 
 namespace StoreApplication.Testing
 {
+    /*
     public class CustomerControllerTests
     {
 
@@ -65,4 +66,5 @@ namespace StoreApplication.Testing
             Assert.IsType<CustomerViewModel>(result.ViewData.Model);
         }
     }
+    */
 }
