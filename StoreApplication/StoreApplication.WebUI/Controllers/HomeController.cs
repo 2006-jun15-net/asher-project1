@@ -16,11 +16,13 @@ namespace StoreApplication.WebUI.Controllers
 
         public IActionResult Index()
         {
+            _logger.LogInformation("User directed to Home page");
             return View();
         }
 
         public IActionResult Privacy()
         {
+            _logger.LogInformation("User directed to Privacy page");
             return View();
         }
 

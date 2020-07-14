@@ -1,8 +1,38 @@
 ﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
 for details on configuring this project to bundle and minify static web assets. */
 
-.navbar-brand {
+@keyframes sonicRun {
+    0% {left:-200px;}
+    100% {left:1500px;}
+}
+
+div.SanicFast {
+    position: absolute;
+    animation-name: sonicRun;
+    animation-duration: 4s;
+    animation-iteration-count: infinite;
+    animation-direction: normal;
+}
+
+div.Image {
+    background-image: url("../Game-Background.png");
+    background-size:1200px 400px;
+}
+
+h3.GameText {
     font-family: 'Press Start 2P', cursive;
+    font-size: large;
+    color: black;
+}
+h1.GameText {
+    font-family: 'Press Start 2P', cursive;
+    color: black;
+}
+
+a.GameText {
+    font-family: 'Press Start 2P', cursive;
+    font-size: x-small;
+    color:aqua;
 }
 
 a.navbar-brand {
@@ -11,6 +41,11 @@ a.navbar-brand {
     word-break: break-all;
 }
 
+a.list-group-item.list-group-item-action.Clear {
+    background: none;
+    font-family: 'Press Start 2P', cursive;
+    color: black;
+}
 /* Provide sufficient contrast against white background */
 a {
   color: #0366d6;

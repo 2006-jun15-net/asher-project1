@@ -1,22 +1,20 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using DataAccess;
 using DataAccess.Entities;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using StoreApplication.Library;
 
 namespace StoreApplication.WebUI
 {
     public class Startup
     {
+        private readonly ILoggerFactory loggerFactory = new LoggerFactory();
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -28,7 +26,9 @@ namespace StoreApplication.WebUI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<Project0StoreContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("SqlServer")));
+                options
+                .UseLoggerFactory(loggerFactory)
+                .UseSqlServer(Configuration.GetConnectionString("SqlServer")));
 
             services.AddScoped<ICustomerRepository, CustomerRepository>();
             services.AddScoped<IProductRepository, ProductRepository>();
@@ -41,8 +41,11 @@ namespace StoreApplication.WebUI
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
+            // Injects ILogger<T> into my controllers and classes
+            loggerFactory.AddFile("Logs/FlashGames-{Date}.txt");
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

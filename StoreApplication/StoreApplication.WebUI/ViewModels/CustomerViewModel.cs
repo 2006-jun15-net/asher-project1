@@ -14,5 +14,7 @@ namespace StoreApplication.WebUI.ViewModels
 
         [Required]
         public string UserName { get; set; }
+
+        public string ErrorMessage { get; set; }
     }
 }

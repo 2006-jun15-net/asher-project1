@@ -2,14 +2,29 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome to Store Name</h1>
-</div>
+    <div class="Image">
+        <div class="text-center">
+            <h1 class="display-4 GameText">Welcome to FlashGames</h1>
+        </div>
 
-<div class="text-center">
-    <h3>What would you like to do?</h3>
-    <div class="list-group">
-        <a asp-controller="Location" asp-action="SelectLocation">Place an Order</a>
-        <a asp-controller="OrderHistory" asp-action="Index">View Order Histories</a>
+        <div class="text-center">
+            <h3 class="GameText">What would you like to do?</h3>
+            <div class="list-group list-group-flush">
+                <a class="list-group-item list-group-item-action Clear" asp-controller="Location" asp-action="SelectLocation">Place an Order</a>
+                <a class="list-group-item list-group-item-action Clear" asp-controller="OrderHistory" asp-action="Index">View Order Histories</a>
+            </div>
+        </div>
+
+        <br />
+        <br />
+        <br />
+
+        <div class="SanicFast">
+            <img src="~/Sonic.gif" width="70" height="70" />
+        </div>
+
+        <br />
+        <br />
+        <br />
     </div>
-</div>
+

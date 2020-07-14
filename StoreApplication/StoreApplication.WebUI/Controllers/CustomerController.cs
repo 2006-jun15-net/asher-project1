@@ -1,5 +1,7 @@
 ﻿using System;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using Serilog;
 using StoreApplication.Library;
 using StoreApplication.Library.Models;
 using StoreApplication.WebUI.ViewModels;
@@ -8,10 +10,16 @@ namespace StoreApplication.WebUI.Controllers
 {
     public class CustomerController : Controller
     {
-        public ICustomerRepository Repo { get; }
+        private ICustomerRepository Repo { get; }
+        private readonly ILogger<CustomerController> _logger;
 
-        public CustomerController(ICustomerRepository repo) =>
+        public CustomerController(ICustomerRepository repo, ILogger<CustomerController> logger)
+        {
             Repo = repo ?? throw new ArgumentNullException(nameof(repo));
+            _logger = logger ?? throw new ArgumentException(nameof(logger));
+        }
+            
+            
 
         public IActionResult Index()
         {
@@ -22,29 +30,38 @@ namespace StoreApplication.WebUI.Controllers
         {
             try
             {
+                _logger.LogInformation("User selected to sign in to their account");
                 if(ModelState.IsValid)
                 {
+                    _logger.LogInformation("User submitted a correct form");
                     var customer = Repo.findCustomer(viewModel.FirstName, viewModel.LastName, viewModel.UserName);
                     if(customer != null)
                     {
                         TempData["currentCustomerID"] = customer.Id;
                         TempData["currentCustomer"] = customer.FirstName + " " + customer.LastName;
+                        _logger.LogInformation("User has successfully logged into their account");
                         return RedirectToAction("Index", "Home");
                     }
-                    return View();
+                    
+                    _logger.LogError("User entered in an invalid credential");
+                    viewModel.ErrorMessage = "One or more credentials were invalid";
+                    return View(viewModel);
                 }
 
+                _logger.LogError("User submitted an invalid form");
                 return View(viewModel);
             }
-            catch
+            catch(ArgumentException ex)
             {
-                return View(viewModel);
+                _logger.LogError(ex, "User entered in an invalid credential");
+                return View();
             }
         }
 
 
         public ActionResult Create()
         {
+            _logger.LogInformation("User selected to create a new account");
             return View();
         }
 
@@ -54,8 +71,10 @@ namespace StoreApplication.WebUI.Controllers
         {
             try
             {
-                if(ModelState.IsValid)
+                _logger.LogInformation("User has submitted their information to create a new account");
+                if (ModelState.IsValid)
                 {
+                    _logger.LogInformation("User submitted a correct form");
                     var customer = new Customer
                     {
                         FirstName = viewModel.FirstName,
@@ -71,13 +90,21 @@ namespace StoreApplication.WebUI.Controllers
                         customer = Repo.findCustomer(customer.FirstName, customer.LastName, customer.UserName);
                         TempData["currentCustomerID"] = customer.Id;
                         TempData["currentCustomer"] = customer.FirstName + " " + customer.LastName;
+                        _logger.LogInformation("User successfully created a new account");
                         return RedirectToAction("Index", "Home");
                     }
+
+                    _logger.LogError("User entered in an invalid credential");
+                    viewModel.ErrorMessage = "One or more credentials were invalid";
+                    return View(viewModel);
                 }
+
+                _logger.LogError("User submitted an invalid form");
                 return View(viewModel);
             }
-            catch
+            catch(ArgumentException ex)
             {
+                _logger.LogError(ex, "User entered in an invalid credential");
                 return View(viewModel);
             }
         }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using StoreApplication.Library;
 using StoreApplication.Library.Models;
 using StoreApplication.WebUI.ViewModels;
@@ -10,20 +11,24 @@ namespace StoreApplication.WebUI.Controllers
 {
     public class ProductController : Controller
     {
-        public IProductRepository ProductRepo { get; }
-        public IInventoryRepository InventoryRepo { get; }
-        public ILocationRepository LocationRepo { get; }
-        public IOrdersRepository OrdersRepo { get; }
-        public IOrderHistoryRepository OrderHistoryRepo { get; }
+        private IProductRepository ProductRepo { get; }
+        private IInventoryRepository InventoryRepo { get; }
+        private ILocationRepository LocationRepo { get; }
+        private IOrdersRepository OrdersRepo { get; }
+        private IOrderHistoryRepository OrderHistoryRepo { get; }
+
+        private readonly ILogger<ProductController> _logger;
 
         public ProductController(IProductRepository prepo, IInventoryRepository iRepo, ILocationRepository lRepo, IOrderHistoryRepository hRepo,
-          IOrdersRepository oRepo)
+          IOrdersRepository oRepo,
+          ILogger<ProductController> logger)
         {
             ProductRepo = prepo ?? throw new ArgumentNullException(nameof(prepo));
             InventoryRepo = iRepo ?? throw new ArgumentNullException(nameof(iRepo));
             LocationRepo = lRepo ?? throw new ArgumentNullException(nameof(lRepo));
             OrdersRepo = oRepo ?? throw new ArgumentNullException(nameof(oRepo));
             OrderHistoryRepo = hRepo ?? throw new ArgumentNullException(nameof(hRepo));
+            _logger = logger ?? throw new ArgumentException(nameof(logger));
         }
             
 
@@ -34,6 +39,7 @@ namespace StoreApplication.WebUI.Controllers
 
         public ActionResult Create()
         {
+            _logger.LogInformation("User is now selecting products to add");
             IEnumerable<Product> products = ProductRepo.GetAll();
             IEnumerable<ProductViewModel> viewModels = products.Select(x => new ProductViewModel
             {
@@ -51,6 +57,7 @@ namespace StoreApplication.WebUI.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(IEnumerable<ProductViewModel> productList)
         {
+            _logger.LogInformation("User has submitted their products to purchase");
             IEnumerable<Product> products = ProductRepo.GetAll();
             IEnumerable<ProductViewModel> viewModels = products.Select(x => new ProductViewModel
             {
@@ -64,10 +71,12 @@ namespace StoreApplication.WebUI.Controllers
             {
                 if(!ModelState.IsValid)
                 {
+                    _logger.LogError("User submitted invalid form");
                     ModelState.AddModelError("", "A whole number must be entered in for Amount");
                     return View(viewModels);
                 }
 
+                _logger.LogInformation("User submitted valid form");
                 var orderHistory = new OrderHistory();
                 List<Order> productOrders = new List<Order>();
                 Location location = LocationRepo.GetByID(Int32.Parse(TempData["selectedLocation"].ToString()));
@@ -78,6 +87,7 @@ namespace StoreApplication.WebUI.Controllers
                         int productId = ProductRepo.FindProduct(p.Name);
                         if(ProductRepo.ExceedMaxAmount(p.AmountOrdered, productId))
                         {
+                            _logger.LogError("User entered value that exceeded MaxAmount");
                             ModelState.AddModelError("", "One or more of the products ordered exceeds the max amount that can be purchased in a single order");
                             return View(viewModels);
                         }
@@ -86,6 +96,7 @@ namespace StoreApplication.WebUI.Controllers
                         var inventory = InventoryRepo.FindLocationInventory(location, product);
                         if(InventoryRepo.ExceedInventory(p.AmountOrdered, inventory.Id))
                         {
+                            _logger.LogError("User entered value that exceeds inventory");
                             ModelState.AddModelError("", "One or more of the products selected exceeds the current stock at this location");
                             return View(viewModels);
                         }
@@ -97,6 +108,7 @@ namespace StoreApplication.WebUI.Controllers
                         };
                         InventoryRepo.UpdateStock(inventory, p.AmountOrdered);
                         productOrders.Add(order);
+                        _logger.LogInformation("Products successfully added to order");
                     }
                 }
 
@@ -110,10 +122,12 @@ namespace StoreApplication.WebUI.Controllers
                 OrdersRepo.AddListOfOrders(productOrders, orderHistory);
                 OrdersRepo.Save();
 
+                _logger.LogInformation("User successfully created an order");
                 return RedirectToAction("Index", "Home");
             }
-            catch
+            catch(ArgumentException ex)
             {
+                _logger.LogError(ex, "User entered invalid argument");
                 return View(productList);
             }
         }

@@ -10,11 +10,11 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark border-bottom box-shadow mb-3" style="background-color:maroon">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark border-bottom box-shadow mb-3" style="background-color:black">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index" style="font-family: 'Press Start 2P', cursive; font-size:medium">
-                    <img src="game-controller.png" />
-                    Store Name
+                <a class="navbar-brand GameText" asp-area="" asp-controller="Home" asp-action="Index" style="font-size:medium; color:aqua">
+                    <img src="~/game-controller.png" width="70" height="50"/>
+                    FlashGames
                 </a>
                 <!--
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -26,17 +26,17 @@
                     <div class="text-light">@TempData.Peek("currentCustomer")</div>
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index" style="font-family: 'Press Start 2P', cursive; font-size:x-small">
+                            <a class="nav-link GameText" asp-area="" asp-controller="Home" asp-action="Index">
                                 Home
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-light" asp-controller="Location" asp-action="SelectLocation" style="font-family: 'Press Start 2P', cursive; font-size:x-small">
+                            <a class="nav-link GameText" asp-controller="Location" asp-action="SelectLocation">
                                 Place Order
                             </a>
                         </li>
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle text-light" href="#" id="OrderHistoryDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="font-family: 'Press Start 2P', cursive; font-size:x-small">
+                            <a class="nav-link dropdown-toggle GameText" href="#" id="OrderHistoryDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 Order Histories
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -45,12 +45,12 @@
                             </div>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Privacy" style="font-family: 'Press Start 2P', cursive; font-size:x-small">
+                            <a class="nav-link GameText" asp-area="" asp-controller="Home" asp-action="Privacy">
                                 Privacy
                             </a>
                         </li>
                         <li>
-                            <a class="nav-link text-light" asp-area="" asp-controller="Customer" asp-action="SignIn" style="font-family: 'Press Start 2P', cursive; font-size:x-small">
+                            <a class="nav-link GameText" asp-area="" asp-controller="Customer" asp-action="SignIn">
                                 Sign In
                             </a>
                         </li>
@@ -68,7 +68,8 @@
     <footer class="footer text-muted" style="background-color:ivory; border-top: dashed; border-top-width: thick; border-top-color: maroon">
         <div class="container">
             &copy; 2020 - StoreApplication.WebUI - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a> | 
-            Icons made by <a href="https://www.flaticon.com/free-icon/game-controller_1986447?term=game%20controller&page=7&position=96" title="Good Ware">Good Ware</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a>
+            Icons made by <a href="https://www.flaticon.com/free-icon/game-controller_1986447?term=game%20controller&page=7&position=96" title="Good Ware">Good Ware</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> | 
+            Gif made by <a href="https://haydiroket.tumblr.com/">Haydiroket</a>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
